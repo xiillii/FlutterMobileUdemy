@@ -11,8 +11,6 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final discoverProvider = context.watch<DiscoverProvider>();
 
-    discoverProvider.initialLoading = false;
-
     return Scaffold(
         body: discoverProvider.initialLoading
             ? const Center(
