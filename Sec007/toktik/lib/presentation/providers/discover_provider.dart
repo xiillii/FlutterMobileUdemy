@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:toktik/domain/entities/video_post.dart';
-import 'package:toktik/infrastructure/models/local_video_model.dart';
-import 'package:toktik/share/data/local_video_posts.dart';
+
+import '../../domain/repositories/video_posts_repository.dart';
 
 class DiscoverProvider extends ChangeNotifier {
-  // TODO: Repository, DataSource
+  final VideoPostsRepository repository;
+
   bool initialLoading = true;
   List<VideoPost> videos = [];
 
+  DiscoverProvider({required this.repository});
+
   Future<void> loadNextPage() async {
-    final List<VideoPost> newVideos = videoPosts
-        .map((item) => LocalVideoModel.fromJson(item).toVideoPostEntity())
-        .toList();
+    final newVideos = await repository.getTrendingVideosByPage(1);
 
     videos.addAll(newVideos);
 
