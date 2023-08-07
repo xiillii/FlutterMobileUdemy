@@ -60,14 +60,14 @@ class _ControlledProgressIndicator extends StatelessWidget {
       builder: (context, snapshot) {
         final progressValue = snapshot.data ?? 0;
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 29),
+          padding: const EdgeInsets.symmetric(horizontal: 29),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             CircularProgressIndicator(
               value: progressValue,
               strokeWidth: 2,
               backgroundColor: Colors.black12,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Expanded(
