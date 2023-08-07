@@ -39,4 +39,9 @@ const appMenuItems = <MenuItem>[
       subTitle: 'Stateful widget animated',
       link: '/animated',
       icon: Icons.animation_outlined),
+  MenuItem(
+      title: 'UI Controls',
+      subTitle: 'Varios controles',
+      link: '/ui-controls',
+      icon: Icons.smart_button_sharp),
 ];
