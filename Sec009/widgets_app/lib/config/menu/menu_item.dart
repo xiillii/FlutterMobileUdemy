@@ -49,4 +49,9 @@ const appMenuItems = <MenuItem>[
       subTitle: 'Una serie de controles de flutter',
       link: '/tutorial',
       icon: Icons.book_online_outlined),
+  MenuItem(
+      title: 'Infinite Scroll',
+      subTitle: 'Un scroll infinito',
+      link: '/infinite',
+      icon: Icons.image_search_outlined),
 ];
