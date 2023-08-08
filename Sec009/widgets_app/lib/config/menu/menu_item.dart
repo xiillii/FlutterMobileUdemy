@@ -44,4 +44,9 @@ const appMenuItems = <MenuItem>[
       subTitle: 'Varios controles',
       link: '/ui-controls',
       icon: Icons.smart_button_sharp),
+  MenuItem(
+      title: 'Introducción a la aplicación',
+      subTitle: 'Una serie de controles de flutter',
+      link: '/tutorial',
+      icon: Icons.book_online_outlined),
 ];
