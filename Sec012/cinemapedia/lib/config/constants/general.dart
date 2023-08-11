@@ -3,4 +3,5 @@ class GeneralConstants {
   static String movieDbImageNotFound =
       'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg';
   static String noPoster = 'no-poster';
+  static String appTitle = 'Cinemapedia';
 }
