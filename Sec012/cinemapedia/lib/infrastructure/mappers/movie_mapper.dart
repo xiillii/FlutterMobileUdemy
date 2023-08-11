@@ -6,8 +6,8 @@ class MovieMapper {
   static Movie movieDbToEntity(MovieMovieDb movie) => Movie(
       adult: movie.adult,
       backdropPath: movie.backdropPath != ''
-          ? '${General.movieDbImagePath}${movie.backdropPath}'
-          : General.movieDbImagePath,
+          ? '${GeneralConstants.movieDbImagePath}${movie.backdropPath}'
+          : GeneralConstants.movieDbImagePath,
       genreIds: movie.genreIds.map((e) => e.toString()).toList(),
       id: movie.id,
       originalLanguage: movie.originalLanguage,
@@ -15,8 +15,8 @@ class MovieMapper {
       overview: movie.overview,
       popularity: movie.popularity,
       posterPath: movie.posterPath != ''
-          ? '${General.movieDbImagePath}${movie.posterPath}'
-          : General.movieDbImagePath,
+          ? '${GeneralConstants.movieDbImagePath}${movie.posterPath}'
+          : GeneralConstants.noPoster,
       releaseDate: movie.releaseDate,
       title: movie.title,
       video: movie.video,
