@@ -32,7 +32,7 @@ class MovieMovieDb {
   });
 
   factory MovieMovieDb.fromJson(Map<String, dynamic> json) => MovieMovieDb(
-        adult: json["adult"],
+        adult: json["adult"] ?? false,
         backdropPath: json["backdrop_path"] ?? '',
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
