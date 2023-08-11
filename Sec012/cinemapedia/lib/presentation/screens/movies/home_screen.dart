@@ -35,19 +35,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     return Column(children: [
-      CustomAppbar(),
-      Expanded(
-        child: ListView.builder(
-          itemCount: nowPlayingMovies.length,
-          itemBuilder: (context, index) {
-            final movie = nowPlayingMovies[index];
-
-            return ListTile(
-              title: Text(movie.title),
-            );
-          },
-        ),
-      ),
+      const CustomAppbar(),
+      MoviesSlideshow(movies: nowPlayingMovies),
     ]);
   }
 }
