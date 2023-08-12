@@ -52,4 +52,10 @@ class MovieDbDatasource extends MoviesDatasource {
         await dio.get('/movie/upcoming', queryParameters: {'page': page});
     return _jsonToMovies(response.data);
   }
+
+  @override
+  Future<Movie> getMovieById(String id) {
+    // TODO: implement getMovieById
+    throw UnimplementedError();
+  }
 }
