@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movie_horizontal_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,6 +22,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
+    ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
   }
 
   @override
@@ -128,10 +130,39 @@ class _MovieDetails extends StatelessWidget {
 
         //TODO: Similar movies
 
+        _SimilarMovies(movieId: movie.id.toString()),
+
         const SizedBox(
           height: 50,
         ),
       ],
+    );
+  }
+}
+
+class _SimilarMovies extends ConsumerWidget {
+  final String movieId;
+  const _SimilarMovies({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final similarMovies = ref.watch(similarMoviesProvider);
+
+    if (similarMovies[movieId] == null) {
+      return const CircularProgressIndicator(
+        strokeWidth: 2,
+      );
+    }
+
+    final movies = similarMovies[movieId]!;
+
+    return MovieHorizontalListview(
+      movies: movies,
+      title: 'Similar Movies',
+      subtitle: null,
+      loadNextPage: () {
+        ref.read(similarMoviesProvider.notifier).loadSimilarMovies(movieId);
+      },
     );
   }
 }
