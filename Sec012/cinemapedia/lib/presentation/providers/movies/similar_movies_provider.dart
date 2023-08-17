@@ -25,14 +25,15 @@ class SimilarMoviesMapNotifier extends StateNotifier<Map<String, List<Movie>>> {
     if (isLoading) return;
     isLoading = true;
     currentPage++;
-    if (state[movieId] != null) {
-      isLoading = false;
-      return;
-    }
 
-    final movie = await getSimilarMovies(movieId, page: currentPage);
+    final movies = await getSimilarMovies(movieId, page: currentPage);
 
-    state = {...state, movieId: movie};
+    state = {...state, movieId: movies};
     isLoading = false;
+  }
+
+  Future<void> loadSimilarMoviesByPage(String movieId, int page) async {
+    currentPage = page - 1;
+    loadSimilarMovies(movieId);
   }
 }

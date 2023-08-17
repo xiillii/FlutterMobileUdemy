@@ -22,7 +22,9 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
-    ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
+    ref
+        .read(similarMoviesProvider.notifier)
+        .loadSimilarMoviesByPage(widget.movieId, 1);
   }
 
   @override
@@ -142,7 +144,8 @@ class _MovieDetails extends StatelessWidget {
 
 class _SimilarMovies extends ConsumerWidget {
   final String movieId;
-  const _SimilarMovies({required this.movieId});
+
+  _SimilarMovies({required this.movieId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -160,9 +163,6 @@ class _SimilarMovies extends ConsumerWidget {
       movies: movies,
       title: 'Similar Movies',
       subtitle: null,
-      loadNextPage: () {
-        ref.read(similarMoviesProvider.notifier).loadSimilarMovies(movieId);
-      },
     );
   }
 }
