@@ -10,15 +10,23 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
   StreamController<List<Movie>> debounceMovies = StreamController.broadcast();
-  Timer? _debounceTimer;
+  Timer? _debouncedTimer;
 
   SearchMovieDelegate({required this.searchMovies});
 
-  void _onQueryChanged(String query) {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+  void clearStreams() => debounceMovies.close();
 
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-      print('buscando peli');
+  void _onQueryChanged(String query) {
+    if (_debouncedTimer?.isActive ?? false) _debouncedTimer!.cancel();
+
+    _debouncedTimer = Timer(const Duration(milliseconds: 500), () async {
+      if (query.isEmpty) {
+        debounceMovies.add([]);
+        return;
+      }
+
+      final movies = await searchMovies(query);
+      debounceMovies.add(movies);
     });
   }
 
@@ -41,7 +49,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, null),
+        onPressed: () {
+          clearStreams();
+          close(context, null);
+        },
         icon: const Icon(Icons.arrow_back_ios_new_outlined));
   }
 
@@ -64,7 +75,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
               final movie = movies[index];
               return _MovieItem(
                 movie: movie,
-                onMovieSelected: close,
+                onMovieSelected: (context, movie) {
+                  clearStreams();
+                  close(context, movie);
+                },
               );
             },
           );
