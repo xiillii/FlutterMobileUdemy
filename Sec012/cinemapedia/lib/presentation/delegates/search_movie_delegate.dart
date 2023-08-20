@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/widgets/shared/image_url_error.dart';
 import 'package:flutter/material.dart';
 
 typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
-  final List<Movie> initialMovies;
+  List<Movie> initialMovies;
   StreamController<List<Movie>> debounceMovies = StreamController.broadcast();
   Timer? _debouncedTimer;
 
@@ -23,6 +24,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
     _debouncedTimer = Timer(const Duration(milliseconds: 500), () async {
       final movies = await searchMovies(query);
+      initialMovies = movies;
       debounceMovies.add(movies);
     });
   }
@@ -55,12 +57,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text('BuildResults');
+    return buildResultsAndSuggestions();
   }
 
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    _onQueryChanged(query);
+  Widget buildResultsAndSuggestions() {
     return StreamBuilder(
         initialData: initialMovies,
         stream: debounceMovies.stream,
@@ -81,6 +81,12 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
             },
           );
         });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    _onQueryChanged(query);
+    return buildResultsAndSuggestions();
   }
 }
 
@@ -111,6 +117,8 @@ class _MovieItem extends StatelessWidget {
                 movie.posterPath,
                 loadingBuilder: (context, child, loadingProgress) =>
                     FadeIn(child: child),
+                errorBuilder: (context, error, stackTrace) =>
+                    const ImageUrlError(),
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class MoviesSlideshow extends StatelessWidget {
@@ -65,6 +66,7 @@ class _Slide extends StatelessWidget {
 
               return FadeIn(child: child);
             },
+            errorBuilder: (context, error, stackTrace) => const ImageUrlError(),
           ),
         ),
       ),

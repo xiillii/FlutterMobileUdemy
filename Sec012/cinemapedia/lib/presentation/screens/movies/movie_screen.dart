@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/presentation/widgets/movies/movie_horizontal_listview.dart';
+import 'package:cinemapedia/presentation/widgets/shared/image_url_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -87,6 +88,8 @@ class _MovieDetails extends StatelessWidget {
 
                     return FadeIn(child: child);
                   },
+                  errorBuilder: (context, error, stackTrace) =>
+                      const ImageUrlError(),
                 ),
               ),
               const SizedBox(
@@ -208,6 +211,8 @@ class _ActorsByMovie extends ConsumerWidget {
 
                       return FadeIn(child: child);
                     },
+                    errorBuilder: (context, error, stackTrace) =>
+                        const ImageUrlError(),
                   ),
                 ),
 
@@ -260,6 +265,8 @@ class _CustomSliverAppBar extends StatelessWidget {
 
                 return FadeIn(child: child);
               },
+              errorBuilder: (context, error, stackTrace) =>
+                  const ImageUrlError(),
             ),
           ),
           const SizedBox.expand(
