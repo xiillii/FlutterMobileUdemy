@@ -16,6 +16,7 @@ class CustomAppbar extends ConsumerWidget {
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return SafeArea(
+      top: false,
       bottom: false,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
