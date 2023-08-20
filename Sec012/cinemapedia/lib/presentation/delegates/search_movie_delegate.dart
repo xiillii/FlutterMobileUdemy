@@ -12,6 +12,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
   List<Movie> initialMovies;
   StreamController<List<Movie>> debounceMovies = StreamController.broadcast();
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
   Timer? _debouncedTimer;
 
   SearchMovieDelegate(
@@ -20,12 +21,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   void clearStreams() => debounceMovies.close();
 
   void _onQueryChanged(String query) {
+    isLoadingStream.add(true);
     if (_debouncedTimer?.isActive ?? false) _debouncedTimer!.cancel();
 
     _debouncedTimer = Timer(const Duration(milliseconds: 500), () async {
       final movies = await searchMovies(query);
       initialMovies = movies;
       debounceMovies.add(movies);
+      isLoadingStream.add(false);
     });
   }
 
@@ -35,13 +38,28 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      FadeIn(
-        animate: query.isNotEmpty,
-        duration: const Duration(milliseconds: 100),
-        child: IconButton(
-            onPressed: () => query = '',
-            icon: const Icon(Icons.clear_outlined)),
-      )
+      StreamBuilder(
+          initialData: false,
+          stream: isLoadingStream.stream,
+          builder: (context, snapshot) {
+            if (snapshot.data ?? false) {
+              return SpinPerfect(
+                duration: const Duration(seconds: 20),
+                spins: 10,
+                infinite: true,
+                animate: query.isNotEmpty,
+                child: IconButton(
+                    onPressed: () => query = '',
+                    icon: const Icon(Icons.refresh_rounded)),
+              );
+            }
+            return FadeIn(
+                animate: query.isNotEmpty,
+                child: IconButton(
+                  onPressed: () => query = '',
+                  icon: const Icon(Icons.clear_outlined),
+                ));
+          }),
     ];
   }
 
