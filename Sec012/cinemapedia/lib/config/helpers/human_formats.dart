@@ -10,4 +10,10 @@ class HumanFormats {
 
     return formatter.format(num);
   }
+
+  static String datetimeYMMMd(DateTime? date) {
+    if (date == null) return "";
+
+    return DateFormat.yMMMd().format(date);
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/presentation/widgets/movies/movie_horizontal_listview.dart';
@@ -106,13 +107,17 @@ class _MovieDetails extends StatelessWidget {
                         movie.title,
                         style: textStyles.titleLarge,
                       ),
-                      Text(movie.overview)
+                      Text(movie.overview),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                          'Release date: ${HumanFormats.datetimeYMMMd(movie.releaseDate)}'),
                     ]),
               )
             ],
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.all(8),
           child: Wrap(
@@ -128,15 +133,8 @@ class _MovieDetails extends StatelessWidget {
             ],
           ),
         ),
-
-        //TODO: show actors
-
         _ActorsByMovie(movieId: movie.id.toString()),
-
-        //TODO: Similar movies
-
         _SimilarMovies(movieId: movie.id.toString()),
-
         const SizedBox(
           height: 50,
         ),
