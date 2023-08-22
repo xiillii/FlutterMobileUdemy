@@ -50,7 +50,7 @@ class IsarDatasource extends StorageDatasource {
 
     if (favoriteMovie != null) {
       // Delete the movie
-      await isar.writeTxn(() => isar.movies.delete(movie.isarId!));
+      await isar.writeTxn(() => isar.movies.delete(favoriteMovie.isarId!));
     } else {
       // insert the movie
       await isar.writeTxn(() => isar.movies.put(movie));
