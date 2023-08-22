@@ -1,0 +1,27 @@
+import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/domain/repositories/storage_repository.dart';
+import 'package:cinemapedia/presentation/providers/storage/local_storage_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final favoriteMoviesProvider =
+    StateNotifierProvider<StorageMovieNotifier, Map<int, Movie>>((ref) {
+  final repository = ref.watch(localStorageRepositoryProvider);
+
+  return StorageMovieNotifier(repository: repository);
+});
+
+class StorageMovieNotifier extends StateNotifier<Map<int, Movie>> {
+  int page = 0;
+  final StorageRepository repository;
+
+  StorageMovieNotifier({required this.repository}) : super({});
+
+  Future<void> loadNextPage() async {
+    final movies =
+        await repository.loadMovies(offset: page * 10); // TODO: limit 20
+    page++;
+
+    final map = {for (var v in movies) v.id: v};
+    state = {...state, ...map};
+  }
+}
