@@ -22,7 +22,7 @@ class IsarDatasource extends StorageDatasource {
   }
 
   @override
-  Future<bool> isMovieFavorite(int id) {
+  Future<bool> isMovieFavorite(int movieId) {
     // TODO: implement isMovieFavorite
     throw UnimplementedError();
   }

@@ -8,7 +8,8 @@ class LocalStorageRepositoryImpl extends StorageRepository {
   LocalStorageRepositoryImpl(this.datasource);
 
   @override
-  Future<bool> isMovieFavorite(int id) => datasource.isMovieFavorite(id);
+  Future<bool> isMovieFavorite(int movieId) =>
+      datasource.isMovieFavorite(movieId);
 
   @override
   Future<List<Movie>> loadMovies({int limit = 10, int offset = 0}) =>
