@@ -16,12 +16,13 @@ class StorageMovieNotifier extends StateNotifier<Map<int, Movie>> {
 
   StorageMovieNotifier({required this.repository}) : super({});
 
-  Future<void> loadNextPage() async {
+  Future<List<Movie>> loadNextPage() async {
     final movies =
         await repository.loadMovies(offset: page * 10); // TODO: limit 20
     page++;
 
     final map = {for (var v in movies) v.id: v};
     state = {...state, ...map};
+    return movies;
   }
 }
