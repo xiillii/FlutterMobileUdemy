@@ -20,12 +20,18 @@ class _CubitCounterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counterState = context.watch<CounterCubit>().state;
+    final resetCubit = context.read<CounterCubit>().reset;
+    final increaseByCubit = context.read<CounterCubit>().increaseBy;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Cubit Counter: ${counterState.transactionCount}'),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh_rounded))
+          IconButton(
+              onPressed: () {
+                resetCubit();
+              },
+              icon: const Icon(Icons.refresh_rounded))
         ],
       ),
       body: Center(
@@ -40,17 +46,29 @@ class _CubitCounterView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-              heroTag: '1', child: const Text('+3'), onPressed: () => {}),
+              heroTag: '1',
+              child: const Text('+3'),
+              onPressed: () {
+                increaseByCubit(3);
+              }),
           const SizedBox(
             height: 15,
           ),
           FloatingActionButton(
-              heroTag: '2', child: const Text('+2'), onPressed: () => {}),
+              heroTag: '2',
+              child: const Text('+2'),
+              onPressed: () {
+                increaseByCubit(2);
+              }),
           const SizedBox(
             height: 15,
           ),
           FloatingActionButton(
-              heroTag: '3', child: const Text('+1'), onPressed: () => {}),
+              heroTag: '3',
+              child: const Text('+1'),
+              onPressed: () {
+                increaseByCubit(1);
+              }),
           const SizedBox(
             height: 15,
           ),
