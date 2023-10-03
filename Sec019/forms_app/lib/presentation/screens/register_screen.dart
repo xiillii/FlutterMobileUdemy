@@ -44,11 +44,19 @@ class _RegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       child: Column(children: [
-        CustomTextFormField(),
+        CustomTextFormField(
+          label: 'Username',
+        ),
         const SizedBox(
           height: 10,
         ),
-        CustomTextFormField(),
+        CustomTextFormField(
+          label: 'Name',
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        CustomTextFormField(label: 'Password', obscureText: true),
         const SizedBox(
           height: 20,
         ),

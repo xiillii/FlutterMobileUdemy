@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key});
+  final String? label;
+  final String? hint;
+  final String? errorMessage;
+  final bool? obscureText;
+  final Function(String?)? onChanged;
+  final String? Function(String?)? validator;
+
+  const CustomTextFormField(
+      {super.key,
+      this.label,
+      this.hint,
+      this.errorMessage,
+      this.obscureText,
+      this.onChanged,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -9,12 +23,8 @@ class CustomTextFormField extends StatelessWidget {
     final border = OutlineInputBorder(borderRadius: BorderRadius.circular(40));
 
     return TextFormField(
-      onChanged: (value) {
-        print('value: ${value}');
-      },
-      validator: (value) {
-        return 'Error en el formuilario';
-      },
+      onChanged: onChanged,
+      validator: validator,
       decoration: InputDecoration(
           enabledBorder: border,
           focusedBorder:
@@ -24,10 +34,11 @@ class CustomTextFormField extends StatelessWidget {
           focusedErrorBorder: border.copyWith(
               borderSide: BorderSide(color: Colors.red.shade800)),
           isDense: true,
-          label: Text('The Label'),
-          hintText: 'This is the hint text',
-          errorText: 'This is the error text',
+          label: label != null ? Text(label!) : null,
+          hintText: hint,
+          errorText: errorMessage,
           focusColor: colors.primary),
+      obscureText: obscureText ?? false,
     );
   }
 }
