@@ -4,7 +4,7 @@ class CounterState {
   final int counter;
   final int transactionCount;
 
-  CounterState({required this.counter, required this.transactionCount});
+  CounterState({this.counter = 0, this.transactionCount = 0});
 
   copyWith({int? counter, int? transactionCount}) => CounterState(
       counter: counter ?? this.counter,
