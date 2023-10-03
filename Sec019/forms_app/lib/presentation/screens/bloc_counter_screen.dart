@@ -20,11 +20,11 @@ class BlocCounterView extends StatelessWidget {
   });
 
   void increaseCounterBy(BuildContext context, [int value = 1]) {
-    context.read<CounterBloc>().add(CounterIncreased(value));
+    context.read<CounterBloc>().increasedBy(value);
   }
 
   void resetCounter(BuildContext context) {
-    context.read<CounterBloc>().add(CounterReset());
+    context.read<CounterBloc>().resetCounter();
   }
 
   @override
