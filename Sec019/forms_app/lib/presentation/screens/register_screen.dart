@@ -37,31 +37,78 @@ class _RegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatelessWidget {
+class _RegisterForm extends StatefulWidget {
   const _RegisterForm();
+
+  @override
+  State<_RegisterForm> createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<_RegisterForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String username = '';
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(children: [
         CustomTextFormField(
           label: 'Username',
+          onChanged: (value) => username = value ?? '',
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Required';
+            if (value.trim().isEmpty) return 'Required';
+            if (value.length < 6) return 'Must have more than 6 letters';
+
+            return null;
+          },
         ),
         const SizedBox(
           height: 10,
         ),
         CustomTextFormField(
-          label: 'Name',
+          label: 'Email',
+          onChanged: (value) => email = value ?? '',
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Required';
+            if (value.trim().isEmpty) return 'Required';
+
+            final emailRegExp = RegExp(
+              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+            );
+
+            if (!emailRegExp.hasMatch(value)) return 'Must me a valid email';
+
+            return null;
+          },
         ),
         const SizedBox(
           height: 10,
         ),
-        CustomTextFormField(label: 'Password', obscureText: true),
+        CustomTextFormField(
+          label: 'Password',
+          obscureText: true,
+          onChanged: (value) => password = value ?? '',
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Required';
+            if (value.trim().isEmpty) return 'Required';
+            if (value.length < 6) return 'Must have more than 6 letters';
+
+            return null;
+          },
+        ),
         const SizedBox(
           height: 20,
         ),
         FilledButton.tonalIcon(
-            onPressed: () {},
+            onPressed: () {
+              final isValid = _formKey.currentState!.validate();
+              if (!isValid) return;
+              print('${username}, ${email}, ${password}');
+            },
             icon: const Icon(Icons.save),
             label: const Text('Save')),
       ]),
