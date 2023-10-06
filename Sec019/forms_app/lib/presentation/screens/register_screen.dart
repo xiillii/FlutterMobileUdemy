@@ -51,6 +51,7 @@ class _RegisterForm extends StatelessWidget {
 
     final username = registerCubit.state.username;
     final password = registerCubit.state.password;
+    final email = registerCubit.state.email;
 
     return Form(
       child: Column(children: [
@@ -69,18 +70,7 @@ class _RegisterForm extends StatelessWidget {
           onChanged: (value) {
             registerCubit.emailChanged(value ?? '');
           },
-          validator: (value) {
-            if (value == null || value.isEmpty) return 'Required';
-            if (value.trim().isEmpty) return 'Required';
-
-            final emailRegExp = RegExp(
-              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-            );
-
-            if (!emailRegExp.hasMatch(value)) return 'Must me a valid email';
-
-            return null;
-          },
+          errorMessage: email.errorMessage,
         ),
         const SizedBox(
           height: 10,
