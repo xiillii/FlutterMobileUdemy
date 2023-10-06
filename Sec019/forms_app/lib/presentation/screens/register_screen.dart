@@ -59,8 +59,7 @@ class _RegisterForm extends StatelessWidget {
           onChanged: (value) {
             registerCubit.usernameChanged(value ?? '');
           },
-          errorMessage:
-              username.isPure || username.isValid ? null : 'User not valid',
+          errorMessage: username.errorMessage,
         ),
         const SizedBox(
           height: 10,
@@ -92,13 +91,7 @@ class _RegisterForm extends StatelessWidget {
           onChanged: (value) {
             registerCubit.passwordChanged(value ?? '');
           },
-          validator: (value) {
-            if (value == null || value.isEmpty) return 'Required';
-            if (value.trim().isEmpty) return 'Required';
-            if (value.length < 6) return 'Must have more than 6 letters';
-
-            return null;
-          },
+          errorMessage: password.errorMessage,
         ),
         const SizedBox(
           height: 20,
