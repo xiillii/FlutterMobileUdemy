@@ -28,3 +28,7 @@ doc/api/
 
 # Settings of VS Code for launch programs
 .vscode/
+Sec021/push_app/android/app/google-services.json
+Sec021/push_app/ios/firebase_app_id_file.json
+Sec021/push_app/ios/Runner/GoogleService-Info.plist
+Sec021/push_app/lib/firebase_options.dart
