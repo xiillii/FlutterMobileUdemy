@@ -23,4 +23,22 @@ class LocalNotifications {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
+
+  static void showLocalNotification(
+      {required int id, String? title, String? body, String? data}) {
+    const androidDetails = AndroidNotificationDetails(
+        'channelId', 'channelName',
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound('notification'),
+        importance: Importance.max,
+        priority: Priority.max);
+
+    const notificationDetails = NotificationDetails(android: androidDetails
+        // TODO: ios
+        );
+
+    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.show(id, title, body, notificationDetails,
+        payload: data);
+  }
 }
