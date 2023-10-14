@@ -17,11 +17,38 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier({required this.authRepository}) : super(AuthState());
 
-  void loginUser(String email, String password) async {}
+  void loginUser(String email, String password) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    try {
+      final user = await authRepository.login(email, password);
+      _setLoggedUser(user);
+    } on WrongCredentials {
+      logout('Credenciales incorrectas');
+    } catch (e) {
+      logout('Error desconocido');
+    }
+  }
 
   void registerUser(String fullname, String email, String password) {}
 
   void chechAuthStatus() async {}
+
+  Future<void> logout([String? errorMessage]) async {
+    // TODO: clean token
+    state = state.copyWith(
+        user: null,
+        errorMessage: errorMessage,
+        authStatus: AuthStatus.notAuthenticated);
+  }
+
+  void _setLoggedUser(User user) {
+    // TODO: Save token
+    state = state.copyWith(
+      user: user,
+      authStatus: AuthStatus.authenticated,
+    );
+  }
 }
 
 //! 1 - Privider state
