@@ -4,6 +4,8 @@ class ConnectionError implements Exception {}
 
 class WrongCredentials implements Exception {}
 
+class Unauthorized implements Exception {}
+
 class InvalidToken implements Exception {}
 
 class CustomError implements Exception {
