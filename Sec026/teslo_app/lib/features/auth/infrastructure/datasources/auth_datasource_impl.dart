@@ -22,7 +22,9 @@ class AuthDatasourceImpl extends AuthDatasource {
 
       return user;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 401) throw WrongCredentials();
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 400) {
+        throw WrongCredentials();
+      }
       if (e.type == DioExceptionType.connectionError) throw ConnectionError();
       if (e.type == DioExceptionType.connectionTimeout) {
         throw ConnectionTimeout();
