@@ -7,7 +7,7 @@ class AuthDatasourceImpl extends AuthDatasource {
   final dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
 
   @override
-  Future<User> checkAuthStatus(String email, String password) {
+  Future<User> checkAuthStatus(String token) {
     // TODO: implement checkAuthStatus
     throw UnimplementedError();
   }
