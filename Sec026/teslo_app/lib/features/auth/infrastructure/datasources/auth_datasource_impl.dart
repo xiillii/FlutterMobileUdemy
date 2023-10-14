@@ -18,7 +18,7 @@ class AuthDatasourceImpl extends AuthDatasource {
       final response = await dio
           .post('/auth/login', data: {'email': email, 'password': password});
 
-      final user = UserMapper().fromJson(response.data);
+      final user = UserMapper.fromJson(response.data);
 
       return user;
     } on DioException catch (e) {

@@ -49,9 +49,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   void _setLoggedUser(User user) {
     // TODO: Save token
     state = state.copyWith(
-      user: user,
-      authStatus: AuthStatus.authenticated,
-    );
+        user: user, authStatus: AuthStatus.authenticated, errorMessage: '');
   }
 }
 
