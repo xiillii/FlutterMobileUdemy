@@ -21,8 +21,15 @@ class AuthDatasourceImpl extends AuthDatasource {
       final user = UserMapper().fromJson(response.data);
 
       return user;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) throw WrongCredentials();
+      if (e.type == DioExceptionType.connectionError) throw ConnectionError();
+      if (e.type == DioExceptionType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+      throw CustomError(message: 'Error desconocido', errorCode: 1);
     } catch (e) {
-      throw WrongCredentials();
+      throw CustomError(message: 'Error desconocido', errorCode: 2);
     }
   }
 
