@@ -41,7 +41,7 @@ class User {
         fullName: json["fullName"],
         isActive: json["isActive"],
         roles: List<String>.from(json["roles"].map((x) => x)),
-        token: json["token"],
+        token: json["token"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
