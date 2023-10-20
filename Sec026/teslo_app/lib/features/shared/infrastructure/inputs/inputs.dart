@@ -3,3 +3,7 @@ export 'password.dart';
 export 'login_email.dart';
 export 'login_password.dart';
 export 'name.dart';
+export 'price.dart';
+export 'slug.dart';
+export 'stock.dart';
+export 'title.dart';
