@@ -9,6 +9,12 @@ class ProductScreen extends ConsumerWidget {
 
   const ProductScreen({super.key, required this.productId});
 
+  void showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productState = ref.watch(productProvider(productId));
@@ -30,7 +36,14 @@ class ProductScreen extends ConsumerWidget {
 
           ref
               .read(productFormProvider(productState.product!).notifier)
-              .onFormSubmit();
+              .onFormSubmit()
+              .then((value) {
+            if (!value) {
+              showSnackbar(context, 'Error al guardar');
+            } else {
+              showSnackbar(context, 'Producto guardado');
+            }
+          });
         },
         child: const Icon(Icons.save_as_outlined),
       ),
