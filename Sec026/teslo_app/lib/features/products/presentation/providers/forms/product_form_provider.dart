@@ -4,10 +4,10 @@ import 'package:teslo_app/config/config.dart';
 import 'package:teslo_app/features/products/domain/entities/product.dart';
 import 'package:teslo_app/features/shared/infrastructure/inputs/inputs.dart';
 
-class ProductFormProvider extends StateNotifier<ProductFormState> {
+class ProductFormNotifier extends StateNotifier<ProductFormState> {
   final void Function(Map<String, dynamic> productLike)? onSubmitCallback;
 
-  ProductFormProvider({this.onSubmitCallback, required Product product})
+  ProductFormNotifier({this.onSubmitCallback, required Product product})
       : super(ProductFormState(
           id: product.id,
           title: Title.dirty(product.title),
