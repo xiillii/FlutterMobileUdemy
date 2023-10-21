@@ -185,11 +185,12 @@ class _SizeSelector extends StatelessWidget {
 
 class _GenderSelector extends StatelessWidget {
   final String selectedGender;
-  final List<String> genders = const ['men', 'women', 'kid'];
+  final List<String> genders = const ['men', 'women', 'kid', 'unisex'];
   final List<IconData> genderIcons = const [
     Icons.man,
     Icons.woman,
     Icons.boy,
+    Icons.people
   ];
 
   final void Function(String selectedGender) onGenderChanged;
@@ -208,7 +209,7 @@ class _GenderSelector extends StatelessWidget {
           return ButtonSegment(
               icon: Icon(genderIcons[genders.indexOf(size)]),
               value: size,
-              label: Text(size, style: const TextStyle(fontSize: 12)));
+              label: Text(size, style: const TextStyle(fontSize: 10)));
         }).toList(),
         selected: {selectedGender},
         onSelectionChanged: (newSelection) {
