@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:path/path.dart';
 import 'package:teslo_app/config/constants/environment.dart';
 import 'package:teslo_app/features/products/domain/datasources/products_datasources.dart';
 import 'package:teslo_app/features/products/domain/entities/product.dart';
@@ -13,6 +14,34 @@ class ProductsDatasourceImpl implements ProductsDatasource {
             baseUrl: Environment.apiUrl,
             headers: {'Authorization': 'Bearer $accessToken'}));
 
+  Future<String> _uploadFile(String path) async {
+    try {
+      final String fileName = basename(path);
+      final FormData data = FormData.fromMap(
+          {'file': MultipartFile.fromFileSync(path, filename: fileName)});
+
+      final response = await dio.post('/files/product', data: data);
+
+      return response.data['image'];
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<List<String>> _uploadPhothos(List<String> images) async {
+    final photosToUpload =
+        images.where((element) => element.contains('/')).toList();
+    final photosToIgnore =
+        images.where((element) => !element.contains('/')).toList();
+
+    final List<Future<String>> uploadJob =
+        photosToUpload.map(_uploadFile).toList();
+
+    final newImages = await Future.wait(uploadJob);
+
+    return [...photosToIgnore, ...newImages];
+  }
+
   @override
   Future<Product> createUpdateProduct(Map<String, dynamic> productLike) async {
     try {
@@ -22,6 +51,7 @@ class ProductsDatasourceImpl implements ProductsDatasource {
           productId == null ? '/products' : '/products/$productId';
 
       productLike.remove('id');
+      productLike['images'] = await _uploadPhothos(productLike['images']);
 
       final response = await dio.request(url,
           data: productLike, options: Options(method: method));
