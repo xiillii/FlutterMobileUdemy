@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_app/features/products/domain/entities/product.dart';
@@ -32,7 +34,9 @@ class ProductScreen extends ConsumerWidget {
 
                   if (photoPath == null) return;
 
-                  photoPath;
+                  ref
+                      .read(productFormProvider(productState.product!).notifier)
+                      .addProductImage(photoPath);
                 },
                 icon: const Icon(Icons.photo_library_outlined)),
             IconButton(
@@ -42,7 +46,9 @@ class ProductScreen extends ConsumerWidget {
 
                   if (photoPath == null) return;
 
-                  photoPath;
+                  ref
+                      .read(productFormProvider(productState.product!).notifier)
+                      .addProductImage(photoPath);
                 },
                 icon: const Icon(Icons.camera_alt_outlined)),
           ],
@@ -270,25 +276,34 @@ class _ImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (images.isEmpty) {
+      return ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          child: Image.asset('assets/images/no-image.jpg', fit: BoxFit.cover));
+    }
     return PageView(
       scrollDirection: Axis.horizontal,
       controller: PageController(viewportFraction: 0.7),
-      children: images.isEmpty
-          ? [
-              ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  child: Image.asset('assets/images/no-image.jpg',
-                      fit: BoxFit.cover))
-            ]
-          : images.map((e) {
-              return ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                child: Image.network(
-                  e,
-                  fit: BoxFit.cover,
-                ),
-              );
-            }).toList(),
+      children: images.map((imagePath) {
+        late ImageProvider imageProvider;
+
+        if (imagePath.startsWith('http')) {
+          imageProvider = NetworkImage(imagePath);
+        } else {
+          imageProvider = FileImage(File(imagePath));
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder:
+                    const AssetImage('assets/loaders/bottle-loader.gif'),
+                image: imageProvider),
+          ),
+        );
+      }).toList(),
     );
   }
 }
