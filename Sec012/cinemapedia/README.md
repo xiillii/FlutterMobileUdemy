@@ -15,3 +15,13 @@
    ```
    flutter pub run build_runner build
    ```
+
+# Prod
+
+Cambiar nombre de la aplicación
+
+Ejecutar en el directorio raiz de la aplicacion
+
+```
+flutter pub run change_app_package_name:main com.xiillii.cinemapedia
+```
