@@ -11,7 +11,8 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   await NotificationsBloc.initializeFirebaseNotifications();
-  await LocalNotifications.initializeLocalNotifications();
+  // TODO: uncomment the following line
+  // await LocalNotifications.initializeLocalNotifications();
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
