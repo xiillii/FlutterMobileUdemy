@@ -31,3 +31,9 @@ Para cambiar el icono de la aplicacion
 ```
 flutter pub run flutter_launcher_icons
 ```
+
+Para cambiar el splash
+
+```
+dart run flutter_native_splash:create
+```
