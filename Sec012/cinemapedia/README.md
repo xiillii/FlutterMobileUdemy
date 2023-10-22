@@ -15,3 +15,31 @@
    ```
    flutter pub run build_runner build
    ```
+
+# Prod
+
+Cambiar nombre de la aplicación
+
+Ejecutar en el directorio raiz de la aplicacion
+
+```
+flutter pub run change_app_package_name:main com.xiillii.cinemapedia
+```
+
+Para cambiar el icono de la aplicacion
+
+```
+flutter pub run flutter_launcher_icons
+```
+
+Para cambiar el splash
+
+```
+dart run flutter_native_splash:create
+```
+
+Android AAB
+
+```
+flutter build appbundle
+```
